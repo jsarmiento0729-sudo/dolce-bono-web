@@ -12,12 +12,12 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--db-cream); color: #1a1a1a; overflow-x: hidden; }
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         
-        /* Estilos de botones */
         .btn-primary { background-color: var(--db-gold); color: white; transition: all 0.3s ease; }
         .btn-primary:hover { background-color: white; color: var(--db-green); transform: translateY(-2px); }
         
-        /* Estilo de imagen de equipo */
         .team-photo { box-shadow: 0 40px 60px -20px rgba(27, 94, 85, 0.15); border: 15px solid white; }
+
+        #mobile-menu { transition: all 0.3s ease-in-out; }
     </style>
 </head>
 <body>
@@ -27,20 +27,32 @@
             <img src="imagenes/logo.jpg" alt="Logo Dolce Bono" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
             <span class="font-serif text-xl font-bold tracking-tighter uppercase">Dolce Bono</span>
         </div>
+
         <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
             <a href="index.html" class="hover:text-[#C49F60] transition pb-1">Inicio</a>
             <a href="ubicaciones.html" class="hover:text-[#C49F60] transition pb-1">Ubicaciones</a>
-            <a href="nosotros.html" class="text-[#C49F60] border-bottom border-[#C49F60] pb-1">Quiénes Somos</a>
+            <a href="nosotros.html" class="text-[#C49F60] border-b border-[#C49F60] pb-1">Quiénes Somos</a>
         </div>
-        <div class="flex items-center gap-5">
-            <a href="https://wa.me/584121091336" target="_blank" class="bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+
+        <div class="flex items-center gap-4">
+            <a href="https://wa.me/584121091336" target="_blank" class="hidden sm:block bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
             
+            <button id="mobile-menu-button" class="lg:hidden text-2xl text-[#C49F60] focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#1B5E55] border-t border-white/10 p-8 flex flex-col gap-6 text-center shadow-xl lg:hidden">
+            <a href="index.html" class="hover:text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Inicio</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Ubicaciones</a>
+            <a href="nosotros.html" class="text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Quiénes Somos</a>
+            <a href="https://wa.me/584121091336" class="bg-[#C49F60] py-3 rounded-full text-[10px] font-bold tracking-[0.2em]">CONTACTAR POR WHATSAPP</a>
         </div>
     </nav>
 
-    <header class="pt-48 pb-20 bg-[#FDFBF7] text-center">
+    <header class="pt-48 pb-20 bg-[#FDFBF7] text-center px-6">
         <span class="text-[#1B5E55] text-[10px] uppercase tracking-[0.6em] font-bold">San Cristóbal • Táchira</span>
-        <h1 class="font-serif text-7xl md:text-9xl italic mt-6 text-[#1B5E55] leading-none">Nuestra <br> Esencia.</h1>
+        <h1 class="font-serif text-6xl md:text-9xl italic mt-6 text-[#1B5E55] leading-none">Nuestra <br> Esencia.</h1>
     </header>
 
     <section class="pb-32 px-6">
@@ -85,8 +97,8 @@
                 </div>
                 <div>
                     <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Contacto</h4>
-                    <ul class="space-y-2 text-xs text-white/70">
-                                           <li class="flex items-center gap-3"><i class="fa-solid fa-phone"></i> +58 412 109 1336</li>
+                    <ul class="space-y-4 text-xs text-white/70">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone"></i> +58 412 109 1336</li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-envelope"></i> hola@dolcebono.com</li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot"></i> San Cristóbal, Venezuela</li>
                     </ul>
@@ -104,6 +116,15 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 
 </body>
 </html>
