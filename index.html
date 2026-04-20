@@ -13,11 +13,13 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .nav-active { color: var(--db-gold) !important; border-bottom: 1px solid var(--db-gold); }
         
-        /* Estilos de botones y utilidades */
         .btn-primary { background-color: var(--db-gold); color: white; transition: all 0.3s ease; }
         .btn-primary:hover { background-color: white; color: var(--db-green); transform: translateY(-2px); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animación suave para el menú móvil */
+        #mobile-menu { transition: all 0.3s ease-in-out; }
     </style>
 </head>
 <body>
@@ -27,13 +29,26 @@
             <img src="imagenes/logo.jpg" alt="Logo Dolce Bono" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
             <span class="font-serif text-xl font-bold tracking-tighter uppercase">Dolce Bono</span>
         </div>
+
         <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
             <a href="index.html" class="nav-active pb-1">Inicio</a>
             <a href="ubicaciones.html" class="hover:text-[#C49F60] transition pb-1">Ubicaciones</a>
             <a href="nosotros.html" class="hover:text-[#C49F60] transition pb-1">Quiénes Somos</a>
         </div>
+
         <div class="flex items-center gap-5">
-            <a href="https://wa.me/584121091336" target="_blank" class="bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+            <a href="https://wa.me/584121091336" target="_blank" class="hidden sm:block bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+            
+            <button id="mobile-menu-button" class="lg:hidden text-2xl text-[#C49F60] focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#1B5E55] border-t border-white/10 p-8 flex flex-col gap-6 text-center shadow-xl lg:hidden">
+            <a href="index.html" class="text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Inicio</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Ubicaciones</a>
+            <a href="nosotros.html" class="hover:text-[#C49F60] uppercase text-[10px] tracking-[0.3em] font-bold">Quiénes Somos</a>
+            <a href="https://wa.me/584121091336" class="bg-[#C49F60] py-3 rounded-full text-[10px] font-bold tracking-[0.2em]">PEDIR POR WHATSAPP</a>
         </div>
     </nav>
 
@@ -71,7 +86,6 @@
             </div>
 
             <div id="menuSlider" class="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-10">
-                
                 <div class="min-w-[300px] md:min-w-[350px] snap-start group">
                     <div class="bg-[#FDFBF7] rounded-[3rem] p-8 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-[#1B5E55]/5">
                         <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
@@ -121,7 +135,7 @@
             
             <div class="text-center mt-10">
                 <a href="https://wa.me/584121091336" target="_blank" class="inline-flex items-center gap-2 text-[#1B5E55] font-bold uppercase text-[10px] tracking-[0.3em] hover:text-[#C49F60] transition-colors">
-                   Consultar Menú Completo <i class="fa-solid fa-arrow-right"></i>
+                    Consultar Menú Completo <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
@@ -147,19 +161,6 @@
                     <span class="block mt-6 text-xs text-[#1B5E55] font-bold uppercase">Andrea P.</span>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="py-24 px-6 text-center">
-        <div class="max-w-3xl mx-auto bg-[#1B5E55] p-16 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-            <div class="relative z-10">
-                <h2 class="font-serif text-4xl md:text-5xl italic mb-6">¿Listo para un break?</h2>
-                <p class="text-white/70 mb-10 text-lg">Haz tu pedido ahora y disfruta de la experiencia Dolce Bono.</p>
-                <a href="https://wa.me/584121091336" target="_blank" class="btn-primary px-12 py-4 rounded-full font-bold uppercase tracking-[0.2em] inline-block shadow-xl">
-                    Pedir por WhatsApp
-                </a>
-            </div>
-            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-[#C49F60]/20 rounded-full blur-3xl"></div>
         </div>
     </section>
 
@@ -201,6 +202,15 @@
     </footer>
 
     <script>
+        // Lógica del Menú Móvil
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Lógica del Slider
         const slider = document.getElementById('menuSlider');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
