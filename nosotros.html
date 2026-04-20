@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Bono | Quiénes Somos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --db-green: #1B5E55; --db-cream: #FDFBF7; --db-gold: #C49F60; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--db-cream); color: #1a1a1a; overflow-x: hidden; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        /* Estilos de botones */
+        .btn-primary { background-color: var(--db-gold); color: white; transition: all 0.3s ease; }
+        .btn-primary:hover { background-color: white; color: var(--db-green); transform: translateY(-2px); }
+        
+        /* Estilo de imagen de equipo */
+        .team-photo { box-shadow: 0 40px 60px -20px rgba(27, 94, 85, 0.15); border: 15px solid white; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-[100] px-6 md:px-16 py-4 flex justify-between items-center bg-[#1B5E55] text-white shadow-lg">
+        <div class="flex items-center gap-3">
+            <img src="imagenes/logo.jpg" alt="Logo Dolce Bono" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
+            <span class="font-serif text-xl font-bold tracking-tighter uppercase">Dolce Bono</span>
+        </div>
+        <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
+            <a href="index.html" class="hover:text-[#C49F60] transition pb-1">Inicio</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] transition pb-1">Ubicaciones</a>
+            <a href="nosotros.html" class="text-[#C49F60] border-bottom border-[#C49F60] pb-1">Quiénes Somos</a>
+        </div>
+        <div class="flex items-center gap-5">
+            <a href="https://wa.me/584121091336" target="_blank" class="bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+            
+        </div>
+    </nav>
+
+    <header class="pt-48 pb-20 bg-[#FDFBF7] text-center">
+        <span class="text-[#1B5E55] text-[10px] uppercase tracking-[0.6em] font-bold">San Cristóbal • Táchira</span>
+        <h1 class="font-serif text-7xl md:text-9xl italic mt-6 text-[#1B5E55] leading-none">Nuestra <br> Esencia.</h1>
+    </header>
+
+    <section class="pb-32 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-24">
+            
+            <div class="md:w-3/5">
+                <div class="team-photo rounded-[4rem] overflow-hidden">
+                    <img src="imagenes/personal.jpg" alt="El equipo Dolce Bono en su inauguración" class="w-full h-auto object-cover">
+                </div>
+            </div>
+
+            <div class="md:w-2/5">
+                <span class="text-[#C49F60] text-xs uppercase tracking-[0.5em] font-bold">Artesanos de la pausa</span>
+                <h2 class="font-serif text-5xl text-[#1B5E55] italic mt-6 mb-10 leading-snug">El corazón <br> de tu break.</h2>
+                <div class="space-y-6 text-gray-600 font-light text-lg leading-loose">
+                    <p>En Dolce Bono, no solo amasamos pan de bonos; amasamos **pasión**. Somos un equipo joven y comprometido de San Cristóbal, dedicados a honrar la tradición artesanal tachirense.</p>
+                    <p>Cada pieza es elaborada a mano con ingredientes locales premium y un secreto fundamental: el amor por la pausa perfecta. Somos artesanos de la textura suave y del sabor que te invita a detenerte y disfrutar.</p>
+                </div>
+                <div class="h-px w-24 bg-[#C49F60] mt-12"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-[#1B5E55] pt-20 pb-10 text-white border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="imagenes/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full bg-white p-1">
+                        <span class="font-serif text-2xl font-bold uppercase">Dolce Bono</span>
+                    </div>
+                    <p class="text-white/60 text-xs leading-relaxed max-w-xs">Redefiniendo el sabor artesanal en el Táchira. Calidad premium en cada detalle.</p>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Navegación</h4>
+                    <ul class="space-y-4 text-xs text-white/70">
+                        <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+                        <li><a href="ubicaciones.html" class="hover:text-white transition">Ubicaciones</a></li>
+                        <li><a href="nosotros.html" class="hover:text-white transition">Quiénes Somos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Contacto</h4>
+                    <ul class="space-y-2 text-xs text-white/70">
+                                           <li class="flex items-center gap-3"><i class="fa-solid fa-phone"></i> +58 412 109 1336</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope"></i> hola@dolcebono.com</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot"></i> San Cristóbal, Venezuela</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Síguenos</h4>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/dolcebono.sc/" target="_blank" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-[#1B5E55] transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/584121091336" target="_blank" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-center text-[9px] uppercase tracking-[0.4em] text-white/30">
+                © 2026 Dolce Bono C.A. | San Cristóbal, Venezuela
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

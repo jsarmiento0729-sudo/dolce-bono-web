@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Bono | Date un Break</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --db-green: #1B5E55; --db-gold: #C49F60; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; color: #1a1a1a; overflow-x: hidden; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        .nav-active { color: var(--db-gold) !important; border-bottom: 1px solid var(--db-gold); }
+        
+        /* Estilos de botones y utilidades */
+        .btn-primary { background-color: var(--db-gold); color: white; transition: all 0.3s ease; }
+        .btn-primary:hover { background-color: white; color: var(--db-green); transform: translateY(-2px); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-[100] px-6 md:px-16 py-4 flex justify-between items-center bg-[#1B5E55] text-white shadow-lg">
+        <div class="flex items-center gap-3">
+            <img src="imagenes/logo.jpg" alt="Logo Dolce Bono" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
+            <span class="font-serif text-xl font-bold tracking-tighter uppercase">Dolce Bono</span>
+        </div>
+        <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
+            <a href="index.html" class="nav-active pb-1">Inicio</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] transition pb-1">Ubicaciones</a>
+            <a href="nosotros.html" class="hover:text-[#C49F60] transition pb-1">Quiénes Somos</a>
+        </div>
+        <div class="flex items-center gap-5">
+            <a href="https://wa.me/584121091336" target="_blank" class="bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+        </div>
+    </nav>
+
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <img src="imagenes/IMG_3026.jpg" class="absolute inset-0 w-full h-full object-cover brightness-[0.35] scale-105" alt="Pan de Bono recién horneado">
+        <div class="relative z-10 text-center text-white px-4">
+            <h1 class="text-6xl md:text-8xl font-serif italic mb-4 leading-tight">Date un break...</h1>
+            <p class="uppercase tracking-[0.6em] text-[10px] md:text-xs font-bold text-[#C49F60] mb-10">Artesanos del Pan de Bono</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="https://wa.me/584121091336" target="_blank" class="btn-primary px-10 py-4 rounded-full font-bold uppercase tracking-widest shadow-lg text-sm">
+                    Pedir Ahora
+                </a>
+                <a href="ubicaciones.html" class="inline-block border border-white/30 backdrop-blur-sm text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all duration-500 text-sm">
+                    Ver Ubicaciones
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                <div>
+                    <span class="text-[#C49F60] text-[10px] uppercase tracking-[0.4em] font-bold">Explora nuestro sabor</span>
+                    <h2 class="font-serif text-5xl text-[#1B5E55] italic mt-2">Conoce nuestro Menú</h2>
+                </div>
+                <div class="flex gap-4">
+                    <button id="prevBtn" class="w-12 h-12 rounded-full border border-[#1B5E55] text-[#1B5E55] hover:bg-[#1B5E55] hover:text-white transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button id="nextBtn" class="w-12 h-12 rounded-full border border-[#1B5E55] text-[#1B5E55] hover:bg-[#1B5E55] hover:text-white transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="menuSlider" class="flex gap-8 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-10">
+                
+                <div class="min-w-[300px] md:min-w-[350px] snap-start group">
+                    <div class="bg-[#FDFBF7] rounded-[3rem] p-8 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-[#1B5E55]/5">
+                        <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
+                            <img src="imagenes/IMG_3025.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Tradicional">
+                            <span class="absolute top-4 right-4 bg-[#1B5E55] text-[#C49F60] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Clásico</span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-[#1B5E55] mb-2">Tradicional</h3>
+                        <p class="text-xs text-gray-500 mb-4 uppercase tracking-widest">100% Almidón de Yuca</p>
+                        <p class="text-sm text-gray-600 italic">"El balance perfecto de quesos y frescura en cada bocado."</p>
+                    </div>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] snap-start group">
+                    <div class="bg-[#FDFBF7] rounded-[3rem] p-8 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-[#1B5E55]/5">
+                        <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
+                            <img src="imagenes/PSX_20240403_181921.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Fusión">
+                            <span class="absolute top-4 right-4 bg-[#C49F60] text-[#1B5E55] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Gourmet</span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-[#1B5E55] mb-2">Pistacho & Arequipe</h3>
+                        <p class="text-xs text-gray-500 mb-4 uppercase tracking-widest">Relleno Especial</p>
+                        <p class="text-sm text-gray-600 italic">"Nuestra masa artesanal rellena de cremas premium."</p>
+                    </div>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] snap-start group">
+                    <div class="bg-[#FDFBF7] rounded-[3rem] p-8 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-[#1B5E55]/5">
+                        <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
+                            <img src="imagenes/IMG_5503.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Frappe">
+                        </div>
+                        <h3 class="font-serif text-2xl text-[#1B5E55] mb-2">Malteadas & Frappés</h3>
+                        <p class="text-xs text-gray-500 mb-4 uppercase tracking-widest">Oreo | Toddy | Pistacho</p>
+                        <p class="text-sm text-gray-600 italic">"El break refrescante que tu día necesita."</p>
+                    </div>
+                </div>
+
+                <div class="min-w-[300px] md:min-w-[350px] snap-start group">
+                    <div class="bg-[#FDFBF7] rounded-[3rem] p-8 shadow-sm group-hover:shadow-xl transition-all duration-500 border border-[#1B5E55]/5">
+                        <div class="relative mb-6 overflow-hidden rounded-2xl aspect-square">
+                            <img src="imagenes/IMG_2813.JPG" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" alt="Chocolate">
+                        </div>
+                        <h3 class="font-serif text-2xl text-[#1B5E55] mb-2">Chocolate Caliente</h3>
+                        <p class="text-xs text-gray-500 mb-4 uppercase tracking-widest">Cremoso Artesanal</p>
+                        <p class="text-sm text-gray-600 italic">"El acompañante perfecto para un pan de bono recién salido."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="https://wa.me/584121091336" target="_blank" class="inline-flex items-center gap-2 text-[#1B5E55] font-bold uppercase text-[10px] tracking-[0.3em] hover:text-[#C49F60] transition-colors">
+                   Consultar Menú Completo <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-[#1B5E55]/5 py-24 px-6 border-y border-[#1B5E55]/10">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="font-serif text-4xl text-[#1B5E55] italic mb-16">Lo que dicen nuestros clientes</h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white p-8 rounded-3xl shadow-sm italic text-gray-600 relative">
+                    <i class="fa-solid fa-quote-left absolute -top-4 left-8 text-3xl text-[#C49F60]"></i>
+                    <p>“El mejor pan de bono que he probado en San Cristóbal.”</p>
+                    <span class="block mt-6 text-xs text-[#1B5E55] font-bold uppercase">María G.</span>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm italic text-gray-600 relative border-b-4 border-[#C49F60]">
+                    <i class="fa-solid fa-quote-left absolute -top-4 left-8 text-3xl text-[#C49F60]"></i>
+                    <p>“Atención impecable y un sabor que te hace volver siempre.”</p>
+                    <span class="block mt-6 text-xs text-[#1B5E55] font-bold uppercase">Carlos R.</span>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm italic text-gray-600 relative">
+                    <i class="fa-solid fa-quote-left absolute -top-4 left-8 text-3xl text-[#C49F60]"></i>
+                    <p>“El de pistacho es de otro planeta. Simplemente exquisito.”</p>
+                    <span class="block mt-6 text-xs text-[#1B5E55] font-bold uppercase">Andrea P.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 text-center">
+        <div class="max-w-3xl mx-auto bg-[#1B5E55] p-16 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="font-serif text-4xl md:text-5xl italic mb-6">¿Listo para un break?</h2>
+                <p class="text-white/70 mb-10 text-lg">Haz tu pedido ahora y disfruta de la experiencia Dolce Bono.</p>
+                <a href="https://wa.me/584121091336" target="_blank" class="btn-primary px-12 py-4 rounded-full font-bold uppercase tracking-[0.2em] inline-block shadow-xl">
+                    Pedir por WhatsApp
+                </a>
+            </div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-[#C49F60]/20 rounded-full blur-3xl"></div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1B5E55] pt-20 pb-10 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="imagenes/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full bg-white p-1">
+                        <span class="font-serif text-2xl font-bold uppercase">Dolce Bono</span>
+                    </div>
+                    <p class="text-white/60 text-xs leading-relaxed">Redefiniendo el sabor artesanal en el Táchira. Calidad premium en cada detalle.</p>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Navegación</h4>
+                    <ul class="space-y-4 text-xs text-white/70">
+                        <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+                        <li><a href="ubicaciones.html" class="hover:text-white transition">Ubicaciones</a></li>
+                        <li><a href="nosotros.html" class="hover:text-white transition">Nosotros</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Contacto</h4>
+                    <p class="text-xs text-white/70">San Cristóbal, Venezuela</p>
+                    <p class="text-xs text-white/70 mt-2">0412-1091336</p>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Síguenos</h4>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/dolcebono.sc/" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white hover:text-[#1B5E55] transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/584121091336" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] transition-all"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 text-center text-[9px] uppercase tracking-[0.4em] text-white/30">
+                © 2026 Dolce Bono C.A. | San Cristóbal, Venezuela
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const slider = document.getElementById('menuSlider');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        nextBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: 350, behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            slider.scrollBy({ left: -350, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

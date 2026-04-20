@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Bono | Ubicaciones y Contacto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,500&family=Plus+Jakarta+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --db-green: #1B5E55; --db-gold: #C49F60; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; color: #1a1a1a; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        .map-card { transition: all 0.4s ease; border: 1px solid rgba(27, 94, 85, 0.05); }
+        .map-card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        
+        .btn-outline { border: 1px solid var(--db-green); color: var(--db-green); transition: all 0.3s; }
+        .btn-outline:hover { background-color: var(--db-green); color: white; }
+
+        input, textarea { border-bottom: 1px solid #e5e7eb !important; transition: border-color 0.3s; }
+        input:focus, textarea:focus { border-color: var(--db-gold) !important; outline: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-[100] px-6 md:px-16 py-4 flex justify-between items-center bg-[#1B5E55] text-white shadow-lg">
+        <div class="flex items-center gap-3">
+            <img src="imagenes/logo.jpg" alt="Logo" class="w-10 h-10 rounded-full bg-white p-1 object-contain">
+            <span class="font-serif text-xl font-bold tracking-tighter uppercase">Dolce Bono</span>
+        </div>
+        <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
+            <a href="index.html" class="hover:text-[#C49F60] transition pb-1">Inicio</a>
+            <a href="ubicaciones.html" class="text-[#C49F60] border-bottom border-[#C49F60] pb-1">Ubicaciones</a>
+            <a href="nosotros.html" class="hover:text-[#C49F60] transition pb-1">Quiénes Somos</a>
+        </div>
+        <a href="https://wa.me/584121091336" target="_blank" class="bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">PEDIR AHORA</a>
+    </nav>
+
+    <section class="pt-40 pb-20 bg-[#1B5E55] text-white text-center">
+        <span class="text-[#C49F60] text-[10px] uppercase tracking-[0.5em] font-bold">San Cristóbal, Táchira</span>
+        <h1 class="font-serif text-6xl md:text-7xl italic mt-4">Nuestras Sedes</h1>
+        <p class="max-w-xl mx-auto mt-6 text-white/60 font-light px-6">Encuéntranos en los puntos más emblemáticos de la ciudad y disfruta del auténtico break Dolce Bono.</p>
+    </section>
+
+    <section class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div class="map-card bg-white rounded-[3.5rem] overflow-hidden shadow-sm">
+                <div class="h-[400px] w-full relative">
+
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.1969509506894!2d-72.22145742688168!3d7.76892822232591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e666db574dc3d5b%3A0x9d0891ba98cebd2d!2sDolce%20Bono!5e0!3m2!1sen!2sve!4v1776652781034!5m2!1sen!2sve" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="p-12">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="font-serif text-3xl text-[#1B5E55] mb-2">Pasaje Pirineos</h2>
+                            <p class="text-gray-500 text-sm italic">Sede Principal</p>
+                        </div>
+                        <span class="bg-[#1B5E55]/5 text-[#1B5E55] p-4 rounded-full text-2xl"><i class="fa-solid fa-store"></i></span>
+                    </div>
+                    <div class="space-y-4 mb-10">
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <i class="fa-solid fa-location-dot text-[#C49F60]"></i>
+                            <span>Calle 12 entre Carreras 23 y 24, Pasaje Pirineos.</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <i class="fa-solid fa-clock text-[#C49F60]"></i>
+                            <span>Lun - Sáb: 8:00 AM - 8:00 PM / Dom: 9:00 AM - 7:00 PM</span>
+                        </div>
+                    </div>
+                    <a href="https://maps.app.goo.gl/YourLink1" target="_blank" class="btn-outline w-full py-4 rounded-full font-bold uppercase tracking-widest text-[10px] inline-block text-center">Abrir en Google Maps</a>
+                </div>
+            </div>
+
+            <div class="map-card bg-white rounded-[3.5rem] overflow-hidden shadow-sm">
+                <div class="h-[400px] w-full relative">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.1969509506894!2d-72.22145742688168!3d7.76892822232591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e666d004adda22d%3A0xe52d3e540e5c2bb4!2sDolce%20Bono%20C.C%20Multi%20Plazas!5e0!3m2!1sen!2sve!4v1776654320020!5m2!1sen!2sve" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="p-12">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="font-serif text-3xl text-[#1B5E55] mb-2">Multi Plazas</h2>
+                            <p class="text-gray-500 text-sm italic">La Concordia</p>
+                        </div>
+                        <span class="bg-[#1B5E55]/5 text-[#1B5E55] p-4 rounded-full text-2xl"><i class="fa-solid fa-shop"></i></span>
+                    </div>
+                    <div class="space-y-4 mb-10">
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <i class="fa-solid fa-location-dot text-[#C49F60]"></i>
+                            <span>Centro Comercial Multi Plazas, Planta Baja.</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-gray-600">
+                            <i class="fa-solid fa-clock text-[#C49F60]"></i>
+                            <span>Lun - Sáb: 8:30 AM - 7:30 PM / Dom: Cerrado</span>
+                        </div>
+                    </div>
+                    <a href="https://maps.app.goo.gl/YourLink2" target="_blank" class="btn-outline w-full py-4 rounded-full font-bold uppercase tracking-widest text-[10px] inline-block text-center">Abrir en Google Maps</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-[#F8F5F0]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="bg-white rounded-[4rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
+                <div class="md:w-2/5 bg-[#1B5E55] p-12 md:p-16 text-white">
+                    <h2 class="font-serif text-4xl mb-8 italic">Contáctanos</h2>
+                    <p class="text-white/70 mb-12 text-sm leading-relaxed font-light">¿Tienes alguna duda, evento especial o sugerencia? Escríbenos directamente.</p>
+                    
+                    <div class="space-y-8 text-white/90">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-phone text-[#C49F60]"></i>
+                            <span class="text-sm font-bold">+58 412 109 1336</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-envelope text-[#C49F60]"></i>
+                            <span class="text-sm font-bold">hola@dolcebono.com</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-3/5 p-12 md:p-16">
+                    <form id="whatsappForm" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="flex flex-col">
+                                <label class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">Nombre</label>
+                                <input type="text" id="nombre" placeholder="Tu nombre" class="py-3 bg-transparent border-b" required>
+                            </div>
+                            <div class="flex flex-col">
+                                <label class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">Email</label>
+                                <input type="email" id="email" placeholder="tu@email.com" class="py-3 bg-transparent border-b" required>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">Mensaje</label>
+                            <textarea id="mensaje" rows="3" placeholder="¿En qué podemos ayudarte?" class="py-3 bg-transparent border-b resize-none" required></textarea>
+                        </div>
+                        <button type="submit" class="bg-[#1B5E55] text-white px-12 py-4 rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-[#C49F60] transition-colors shadow-lg">Enviar a WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1B5E55] pt-20 pb-10 text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="imagenes/logo.jpg" alt="Logo" class="w-12 h-12 rounded-full bg-white p-1">
+                        <span class="font-serif text-2xl font-bold uppercase">DOLCE BONO</span>
+                    </div>
+                    <p class="text-white/60 text-xs leading-relaxed max-w-xs">Redefiniendo el sabor artesanal en el Táchira. Calidad premium en cada detalle.</p>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Navegación</h4>
+                    <ul class="space-y-4 text-xs text-white/70">
+                        <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+                        <li><a href="ubicaciones.html" class="hover:text-white transition">Ubicaciones</a></li>
+                        <li><a href="nosotros.html" class="hover:text-white transition">Quiénes Somos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-6">Contacto</h4>
+                    <ul class="space-y-4 text-xs text-white/70">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-phone"></i> +58 412 109 1336</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-envelope"></i> hola@dolcebono.com</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-location-dot"></i> San Cristóbal, Venezuela</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[9px] uppercase tracking-[0.4em] text-white/30 text-center md:text-left">
+                    © 2026 Dolce Bono C.A. | Todos los derechos reservados
+                </p>
+                <div class="flex gap-6 items-center">
+                    <span class="text-[10px] uppercase tracking-[0.2em] font-bold text-[#C49F60]">Síguenos</span>
+                    <a href="https://www.instagram.com/dolcebono.sc/" target="_blank" class="text-xl hover:text-[#C49F60] transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/584121091336" target="_blank" class="text-xl hover:text-[#25D366] transition"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const mensaje = document.getElementById('mensaje').value;
+            
+            const telefono = "584247748545"; 
+
+            // Construcción del mensaje con formato para WhatsApp
+            const texto = `*Nuevo Mensaje desde la Web Dolce Bono*%0A%0A` +
+                          `*Nombre:* ${nombre}%0A` +
+                          `*Email:* ${email}%0A` +
+                          `*Mensaje:* ${mensaje}`;
+
+            const url = `https://wa.me/${telefono}?text=${texto}`;
+
+            window.open(url, '_blank');
+        });
+    </script>
+
+</body>
+</html>
