@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Bono | Menú Digital & Pedidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --db-green: #1B5E55;
+            --db-green-dark: #13463F;
+            --db-green-light: #267A70;
+            --db-gold: #C49F60;
+            --db-gold-hover: #b08a4d;
+            --db-cream: #FDFBF7;
+            --db-card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--db-cream);
+            color: #222222;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1ede4;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--db-gold);
+            border-radius: 999px;
+        }
+
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .nav-active {
+            color: var(--db-gold) !important;
+            border-bottom: 2px solid var(--db-gold);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #C49F60 100%);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #C49F60 0%, #A98342 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(196, 159, 96, 0.4);
+        }
+
+        .btn-green {
+            background-color: var(--db-green);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-green:hover {
+            background-color: var(--db-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(27, 94, 85, 0.3);
+        }
+
+        .category-chip {
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .category-chip.active {
+            background-color: var(--db-green);
+            color: white;
+            border-color: var(--db-green);
+            box-shadow: 0 4px 12px rgba(27, 94, 85, 0.25);
+        }
+
+        .product-card {
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid rgba(27, 94, 85, 0.08);
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(27, 94, 85, 0.12);
+            border-color: rgba(196, 159, 96, 0.4);
+        }
+
+        .floating-cart-bar {
+            transform: translateY(120%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .floating-cart-bar.visible {
+            transform: translateY(0);
+        }
+
+        .modal-backdrop {
+            background-color: rgba(19, 70, 63, 0.6);
+            backdrop-filter: blur(6px);
+        }
+
+        .custom-input {
+            border: 1.5px solid #E5E0D6;
+            border-radius: 1rem;
+            padding: 0.85rem 1.15rem;
+            transition: all 0.2s ease;
+            background-color: #FAF8F4;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: var(--db-green);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(27, 94, 85, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- TOP NAVIGATION -->
+    <nav class="fixed w-full top-0 z-50 px-6 md:px-16 py-4 flex justify-between items-center bg-[#1B5E55] text-white shadow-lg">
+        <div class="flex items-center gap-3">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="imagenes/logo.jpg" alt="Logo Dolce Bono" class="w-10 h-10 rounded-full bg-white p-1 object-contain shadow-inner">
+                <span class="font-serif text-xl font-bold tracking-tight uppercase">Dolce Bono</span>
+            </a>
+        </div>
+
+        <div class="hidden lg:flex space-x-10 uppercase text-[10px] tracking-[0.3em] font-bold">
+            <a href="index.html" class="hover:text-[#C49F60] transition pb-1">Inicio</a>
+            <a href="menu.html" class="nav-active pb-1">Menú Digital</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] transition pb-1">Ubicaciones</a>
+            <a href="nosotros.html" class="hover:text-[#C49F60] transition pb-1">Quiénes Somos</a>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button id="headerCartBtn" onclick="openCartDrawer()" class="relative bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition-all">
+                <i class="fa-solid fa-bag-shopping text-[#C49F60] text-sm"></i>
+                <span class="hidden sm:inline">Mi Pedido</span>
+                <span id="navCartCount" class="bg-[#C49F60] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+            </button>
+
+            <a href="https://wa.me/584121091336" target="_blank" class="hidden sm:block bg-[#C49F60] text-white px-5 py-2 rounded-full text-[10px] font-bold tracking-widest hover:bg-white hover:text-[#1B5E55] transition-all">
+                WHATSAPP
+            </a>
+
+            <button id="mobile-menu-button" class="lg:hidden text-2xl text-[#C49F60] focus:outline-none ml-1">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#1B5E55] border-t border-white/10 p-6 flex flex-col gap-5 text-center shadow-2xl lg:hidden">
+            <a href="index.html" class="hover:text-[#C49F60] uppercase text-xs tracking-[0.25em] font-bold py-1">Inicio</a>
+            <a href="menu.html" class="text-[#C49F60] uppercase text-xs tracking-[0.25em] font-bold py-1">Menú Digital</a>
+            <a href="ubicaciones.html" class="hover:text-[#C49F60] uppercase text-xs tracking-[0.25em] font-bold py-1">Ubicaciones</a>
+            <a href="nosotros.html" class="hover:text-[#C49F60] uppercase text-xs tracking-[0.25em] font-bold py-1">Quiénes Somos</a>
+            <a href="https://wa.me/584121091336" class="bg-[#C49F60] py-3 rounded-full text-xs font-bold tracking-[0.2em] mt-2">WHATSAPP DIRECTO</a>
+        </div>
+    </nav>
+
+    <!-- HEADER / HERO -->
+    <header class="pt-32 pb-12 md:pt-40 md:pb-16 bg-[#1B5E55] text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C49F60_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <span class="inline-block bg-white/10 text-[#C49F60] px-4 py-1.5 rounded-full text-[11px] uppercase tracking-[0.35em] font-bold mb-4 backdrop-blur-md border border-[#C49F60]/30">
+                Pide en Línea • Dolce Bono
+            </span>
+            <h1 class="font-serif text-4xl md:text-6xl italic font-bold mb-3 tracking-tight">
+                Nuestro Menú Artesanal
+            </h1>
+            <p class="text-white/75 text-sm md:text-base max-w-xl mx-auto font-light leading-relaxed mb-8">
+                Selecciona tus productos favoritos, confirma tus datos y envíalo directo a WhatsApp con registro en base de datos.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="max-w-xl mx-auto relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-base"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Buscar pan de bono, cafés, malteadas, matchas..." 
+                    class="w-full bg-white text-gray-800 placeholder-gray-400 rounded-full py-4 pl-14 pr-12 shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#C49F60]/40 text-sm font-medium"
+                    oninput="filterProducts()"
+                >
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- STICKY CATEGORIES BAR -->
+    <section class="sticky top-[72px] z-40 bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#1B5E55]/10 py-3.5 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div id="categoryContainer" class="flex gap-2.5 overflow-x-auto scrollbar-none py-1">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN PRODUCT LIST -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-10 flex-1 w-full">
+        <!-- Products Grid Container -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="w-20 h-20 mx-auto rounded-full bg-[#1B5E55]/5 flex items-center justify-center text-3xl text-[#C49F60] mb-4">
+                <i class="fa-solid fa-cookie-bite"></i>
+            </div>
+            <h3 class="font-serif text-2xl text-[#1B5E55] font-bold mb-2">No se encontraron productos</h3>
+            <p class="text-gray-500 text-sm max-w-sm mx-auto mb-6">Intenta buscando con otra palabra o selecciona otra categoría.</p>
+            <button onclick="selectCategory('todos')" class="btn-green px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                Ver todo el menú
+            </button>
+        </div>
+    </main>
+
+    <!-- FLOATING CART BAR -->
+    <div id="floatingCartBar" class="floating-cart-bar fixed bottom-5 left-0 right-0 z-40 px-4 md:px-8 max-w-2xl mx-auto pointer-events-none">
+        <div class="pointer-events-auto bg-[#1B5E55] text-white p-4 md:p-5 rounded-2xl shadow-2xl flex items-center justify-between border border-[#C49F60]/30 backdrop-blur-lg">
+            <div class="flex items-center gap-3.5">
+                <div class="relative bg-[#C49F60] text-white w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-md">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span id="floatingCartCountBadge" class="absolute -top-2 -right-2 bg-white text-[#1B5E55] text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#1B5E55]">
+                        0
+                    </span>
+                </div>
+                <div>
+                    <div class="text-xs text-white/70 uppercase tracking-widest font-semibold">Tu Pedido</div>
+                    <div class="text-lg md:text-xl font-bold font-serif tracking-tight">
+                        Total: <span id="floatingCartTotal" class="text-[#C49F60]">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="openCartDrawer()" class="btn-gold px-6 md:px-8 py-3 rounded-xl font-bold text-xs md:text-sm uppercase tracking-wider flex items-center gap-2 shadow-lg">
+                <span>Ver Pedido</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cartDrawerBackdrop" class="fixed inset-0 z-50 modal-backdrop hidden transition-opacity duration-300" onclick="closeCartDrawer()"></div>
+    <div id="cartDrawer" class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        
+        <div class="p-6 bg-[#1B5E55] text-white flex items-center justify-between shadow-md">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bag-shopping text-[#C49F60] text-xl"></i>
+                <h3 class="font-serif text-2xl font-bold italic">Tu Carrito</h3>
+            </div>
+            <button onclick="closeCartDrawer()" class="text-white/70 hover:text-white text-xl p-2 focus:outline-none">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Injected by JS -->
+        </div>
+
+        <div id="cartDrawerFooter" class="p-6 bg-[#FDFBF7] border-t border-gray-100 space-y-4">
+            <div class="space-y-2">
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>Subtotal</span>
+                    <span id="drawerSubtotal" class="font-semibold text-gray-800">$0.00</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold text-[#1B5E55]">
+                    <span>Total Estimado</span>
+                    <span id="drawerTotal" class="text-xl text-[#C49F60]">$0.00</span>
+                </div>
+            </div>
+
+            <button onclick="openCheckoutModal()" class="w-full btn-gold py-4 rounded-xl font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg">
+                <span>Continuar y Datos</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <button onclick="clearCart()" class="w-full text-center text-xs text-red-500 hover:text-red-700 font-semibold py-1">
+                Vaciar Carrito
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT & CONFIRMATION MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 modal-backdrop hidden overflow-y-auto flex items-center justify-center p-4 sm:p-6">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden my-8 transform transition-all border border-[#1B5E55]/10">
+            
+            <div class="bg-[#1B5E55] text-white p-6 md:p-8 flex items-center justify-between relative">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-[#C49F60] text-[#1B5E55] text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full tracking-wider">
+                            Paso Final
+                        </span>
+                        <span id="modalCorrelativeHeader" class="text-[#C49F60] text-xs font-mono font-bold tracking-wider">
+                            #DB-0000
+                        </span>
+                    </div>
+                    <h2 class="font-serif text-3xl md:text-4xl italic font-bold">Confirmación de Pedido</h2>
+                    <p class="text-white/70 text-xs mt-1">Registraremos tu pedido en base de datos y abriremos WhatsApp con el detalle.</p>
+                </div>
+                <button onclick="closeCheckoutModal()" class="text-white/70 hover:text-white text-2xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="checkoutForm" onsubmit="handleFormSubmit(event)" class="p-6 md:p-8 space-y-6">
+                
+                <!-- Correlative Banner -->
+                <div class="bg-[#1B5E55]/5 border border-[#1B5E55]/15 rounded-2xl p-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-[#1B5E55] text-[#C49F60] flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-gray-500 font-semibold uppercase tracking-wider">Número Correlativo de Pedido</div>
+                            <div id="correlativeBadge" class="text-xl font-bold font-mono text-[#1B5E55]">#DB-0000</div>
+                        </div>
+                    </div>
+                    <span class="text-[11px] bg-[#C49F60]/20 text-[#A98342] font-bold px-3 py-1 rounded-full">
+                        Autogenerado
+                    </span>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                            <i class="fa-solid fa-user text-[#C49F60] mr-1"></i> Nombre y Apellido *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="customerName" 
+                            required 
+                            placeholder="Ej. Juan Pérez" 
+                            class="custom-input w-full text-sm font-medium"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                            <i class="fa-brands fa-whatsapp text-[#25D366] mr-1"></i> Número de WhatsApp / Teléfono *
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="customerPhone" 
+                            required 
+                            placeholder="Ej. 0412 1234567 o +58 412 1234567" 
+                            class="custom-input w-full text-sm font-medium"
+                        >
+                    </div>
+                </div>
+
+                <!-- Order Type -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                        <i class="fa-solid fa-location-dot text-[#C49F60] mr-1"></i> Tipo de Entrega *
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="orderType" value="Pasaje Pirineos" checked class="peer hidden" onchange="toggleDeliveryAddress()">
+                            <div class="p-3.5 rounded-xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center transition-all">
+                                <i class="fa-solid fa-store block text-lg text-[#1B5E55] mb-1"></i>
+                                <div class="text-xs font-bold text-gray-800">Sede Pirineos</div>
+                                <div class="text-[10px] text-gray-500">Pasaje Pirineos</div>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="orderType" value="Multi Plazas" class="peer hidden" onchange="toggleDeliveryAddress()">
+                            <div class="p-3.5 rounded-xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center transition-all">
+                                <i class="fa-solid fa-shop block text-lg text-[#1B5E55] mb-1"></i>
+                                <div class="text-xs font-bold text-gray-800">Sede Multi Plazas</div>
+                                <div class="text-[10px] text-gray-500">La Concordia</div>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="orderType" value="Delivery" class="peer hidden" onchange="toggleDeliveryAddress()">
+                            <div class="p-3.5 rounded-xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center transition-all">
+                                <i class="fa-solid fa-motorcycle block text-lg text-[#C49F60] mb-1"></i>
+                                <div class="text-xs font-bold text-gray-800">Delivery</div>
+                                <div class="text-[10px] text-gray-500">A tu dirección</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="deliveryAddressContainer" class="hidden">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                        <i class="fa-solid fa-map-location-dot text-[#C49F60] mr-1"></i> Dirección exacta de entrega
+                    </label>
+                    <input 
+                        type="text" 
+                        id="deliveryAddress" 
+                        placeholder="Ej. Urb. Mérida, Calle 4, Casa #12-45" 
+                        class="custom-input w-full text-sm font-medium"
+                    >
+                </div>
+
+                <!-- Payment Method (3 Requested: Pago Móvil, Bancolombia, Zelle) -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+                        <i class="fa-solid fa-credit-card text-[#C49F60] mr-1"></i> Método de Pago *
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Pago Móvil" checked class="peer hidden" onchange="updatePaymentMethodInfo()">
+                            <div class="p-3.5 rounded-2xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center text-xs font-bold text-gray-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm">
+                                <span class="text-xl">📱</span>
+                                <span>Pago Móvil</span>
+                                <span class="text-[10px] text-gray-500 font-normal">Bolívares (Bs.)</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Bancolombia" class="peer hidden" onchange="updatePaymentMethodInfo()">
+                            <div class="p-3.5 rounded-2xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center text-xs font-bold text-gray-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm">
+                                <span class="text-xl">🇨🇴</span>
+                                <span>Bancolombia</span>
+                                <span class="text-[10px] text-gray-500 font-normal">Pesos (COP)</span>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="paymentMethod" value="Zelle" class="peer hidden" onchange="updatePaymentMethodInfo()">
+                            <div class="p-3.5 rounded-2xl border-2 border-gray-200 peer-checked:border-[#1B5E55] peer-checked:bg-[#1B5E55]/5 text-center text-xs font-bold text-gray-800 transition-all flex flex-col items-center justify-center gap-1 shadow-sm">
+                                <span class="text-xl">🏦</span>
+                                <span>Zelle</span>
+                                <span class="text-[10px] text-gray-500 font-normal">Dólares (USD)</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Datos para realizar la transferencia / Pago -->
+                    <div id="paymentInstructionsBox" class="bg-[#1B5E55]/5 border border-[#1B5E55]/15 rounded-2xl p-4 text-xs space-y-1.5 mb-4">
+                        <div class="font-bold text-[#1B5E55] flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-info text-[#C49F60]"></i>
+                            <span id="paymentMethodTitle">Datos para Pago Móvil:</span>
+                        </div>
+                        <div id="paymentMethodDetails" class="text-gray-600 leading-relaxed font-medium">
+                            • Banco: <b>Banesco (0134)</b> / <b>Mercantil (0105)</b><br>
+                            • Teléfono: <b>0412 109 1336</b><br>
+                            • C.I.: <b>V-25.123.456</b> (Dolce Bono C.A.)
+                        </div>
+                    </div>
+
+                    <!-- Campo Referencia de Pago -->
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                                <i class="fa-solid fa-receipt text-[#C49F60] mr-1"></i> Número de Referencia del Pago / Transferencia
+                            </label>
+                            <input 
+                                type="text" 
+                                id="paymentReference" 
+                                placeholder="Ej. 123456 (Últimos dígitos o Nro. de comprobante)" 
+                                class="custom-input w-full text-sm font-medium"
+                            >
+                        </div>
+
+                        <!-- Adjuntar Comprobante (Foto) -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                                <i class="fa-solid fa-camera text-[#C49F60] mr-1"></i> Adjuntar Captura de Pago (Opcional)
+                            </label>
+                            
+                            <input 
+                                type="file" 
+                                id="receiptFileInput" 
+                                accept="image/*" 
+                                class="hidden" 
+                                onchange="handleReceiptFile(event)"
+                            >
+
+                            <div 
+                                id="receiptUploadBox" 
+                                onclick="document.getElementById('receiptFileInput').click()"
+                                class="border-2 border-dashed border-[#1B5E55]/20 hover:border-[#1B5E55] rounded-2xl p-4 text-center cursor-pointer bg-[#FDFBF7] hover:bg-white transition-all group"
+                            >
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl text-[#C49F60] group-hover:scale-110 transition-transform mb-1"></i>
+                                <div class="text-xs font-bold text-gray-700">Haz clic para subir captura o foto del comprobante</div>
+                                <div class="text-[10px] text-gray-400">JPG, PNG o captura de pantalla</div>
+                            </div>
+
+                            <!-- Image Preview Container -->
+                            <div id="receiptPreviewContainer" class="hidden mt-2 p-3 bg-[#1B5E55]/5 rounded-2xl border border-[#1B5E55]/15 flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <img id="receiptPreviewImg" src="" alt="Comprobante" class="w-14 h-14 object-cover rounded-xl border border-white shadow-sm">
+                                    <div class="min-w-0">
+                                        <div class="text-xs font-bold text-gray-800 truncate" id="receiptFileName">comprobante.jpg</div>
+                                        <div class="text-[10px] text-[#1B5E55] font-semibold flex items-center gap-1">
+                                            <i class="fa-solid fa-circle-check text-[#25D366]"></i> Comprobante adjuntado
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="removeReceiptFile()" class="text-red-500 hover:text-red-700 p-2 text-sm focus:outline-none">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">
+                        <i class="fa-solid fa-comment-dots text-[#C49F60] mr-1"></i> Notas o Indicaciones Especiales (Opcional)
+                    </label>
+                    <textarea 
+                        id="orderNotes" 
+                        rows="2" 
+                        placeholder="Ej. Café bien caliente con poca azúcar, empacar por separado, etc." 
+                        class="custom-input w-full text-sm font-medium resize-none"
+                    ></textarea>
+                </div>
+
+                <div class="bg-[#FDFBF7] rounded-2xl p-4 border border-gray-200/80 space-y-2">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-500">Resumen del Pedido</div>
+                    <div id="checkoutItemsList" class="text-xs space-y-1.5 text-gray-700 max-h-32 overflow-y-auto pr-1">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="border-t border-gray-200 pt-2 flex justify-between items-center font-bold text-base text-[#1B5E55]">
+                        <span>Total a Pagar:</span>
+                        <span id="checkoutTotal" class="text-xl text-[#C49F60] font-serif">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button 
+                        type="submit" 
+                        class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-4 px-6 rounded-2xl font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-3 shadow-xl transition-all hover:shadow-2xl hover:scale-[1.01]"
+                    >
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Confirmar y Enviar Pedido a WhatsApp</span>
+                    </button>
+                    <p class="text-center text-[11px] text-gray-400 mt-2">
+                        Se guardará en base de datos y se abrirá WhatsApp con el pedido listo para despachar.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-3xl p-8 text-center shadow-2xl border border-[#1B5E55]/10">
+            <div class="w-20 h-20 rounded-full bg-[#25D366]/10 text-[#25D366] flex items-center justify-center text-4xl mx-auto mb-5">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <span class="text-xs font-bold uppercase tracking-widest text-[#C49F60]">¡Pedido Registrado!</span>
+            <h3 class="font-serif text-3xl font-bold text-[#1B5E55] mt-1 mb-2">¡Gracias por tu compra!</h3>
+            <p class="text-gray-600 text-sm mb-4">
+                Tu pedido con correlativo <span id="successCorrelative" class="font-mono font-bold text-[#1B5E55]">#DB-0000</span> ha sido guardado y enviado a WhatsApp.
+            </p>
+
+            <div class="bg-[#FDFBF7] rounded-xl p-4 mb-6 text-left text-xs space-y-1.5 border border-gray-100">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Cliente:</span>
+                    <span id="successCustomerName" class="font-bold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Teléfono:</span>
+                    <span id="successCustomerPhone" class="font-bold text-gray-800">-</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Total:</span>
+                    <span id="successTotal" class="font-bold text-[#C49F60] text-sm">-</span>
+                </div>
+            </div>
+
+            <div class="space-y-2.5">
+                <a id="successWhatsAppLink" href="#" target="_blank" class="w-full block bg-[#25D366] text-white py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-[#20bd5a] transition">
+                    <i class="fa-brands fa-whatsapp mr-1 text-base"></i> Abrir Chat de WhatsApp
+                </a>
+                <button onclick="closeSuccessModal()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition">
+                    Hacer otro pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#1B5E55] pt-16 pb-10 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                        <img src="imagenes/logo.jpg" alt="Logo" class="w-10 h-10 rounded-full bg-white p-1">
+                        <span class="font-serif text-2xl font-bold uppercase">DOLCE BONO</span>
+                    </div>
+                    <p class="text-white/70 text-xs leading-relaxed max-w-xs mx-auto md:mx-0">
+                        El auténtico pan de bono artesanal y cafetería de especialidad en San Cristóbal, Táchira.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-4">Navegación</h4>
+                    <ul class="space-y-2.5 text-xs text-white/75">
+                        <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+                        <li><a href="menu.html" class="hover:text-white transition text-[#C49F60]">Menú Digital</a></li>
+                        <li><a href="ubicaciones.html" class="hover:text-white transition">Ubicaciones</a></li>
+                        <li><a href="nosotros.html" class="hover:text-white transition">Quiénes Somos</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-[#C49F60] text-[10px] uppercase tracking-[0.3em] font-bold mb-4">Atención al Cliente</h4>
+                    <ul class="space-y-2.5 text-xs text-white/75">
+                        <li class="flex items-center justify-center md:justify-start gap-2.5">
+                            <i class="fa-solid fa-phone text-[#C49F60]"></i> +58 412 109 1336
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-2.5">
+                            <i class="fa-solid fa-clock text-[#C49F60]"></i> Lun - Sáb: 8am - 8pm | Dom: 9am - 7pm
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-2.5">
+                            <i class="fa-solid fa-location-dot text-[#C49F60]"></i> San Cristóbal, Venezuela
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-center">
+                <p class="text-[10px] uppercase tracking-[0.3em] text-white/40">
+                    © 2026 Dolce Bono C.A. • Menú Digital
+                </p>
+                <div class="flex gap-5 text-lg">
+                    <a href="https://www.instagram.com/dolcebono.sc/" target="_blank" class="hover:text-[#C49F60] transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/584121091336" target="_blank" class="hover:text-[#25D366] transition"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOGIC & PRODUCTS DATA -->
+    <script>
+        const DOLCE_BONO_WHATSAPP = "584121091336";
+
+        // Categories Configuration
+        const categories = [
+            { id: "todos", name: "✨ Todos", icon: "fa-border-all" },
+            { id: "pan-de-bono", name: "🥐 Pan de Bono", icon: "fa-bread-slice" },
+            { id: "cafeteria", name: "☕ Cafetería", icon: "fa-mug-hot" },
+            { id: "frappes", name: "🍦 Frappés & Malteadas", icon: "fa-ice-cream" },
+            { id: "matcha-frios", name: "🍵 Matcha & Fríos", icon: "fa-glass-water" },
+            { id: "combos", name: "🎁 Combos Break", icon: "fa-box-open" }
+        ];
+
+        // Products Database with photos from fotos/ and imagenes/
+        const products = [
+            // 🥐 1. PAN DE BONO
+            {
+                id: "pdb-tradicional",
+                name: "Pan de Bono Tradicional",
+                category: "pan-de-bono",
+                price: 1.50,
+                image: "imagenes/IMG_3025.JPG",
+                badge: "El Clásico",
+                badgeColor: "bg-[#1B5E55] text-[#C49F60]",
+                description: "100% almidón de yuca y queso fresco seleccionado. Horneado al momento con textura suave y dorada."
+            },
+            {
+                id: "pdb-pistacho",
+                name: "Pan de Bono Relleno Pistacho",
+                category: "pan-de-bono",
+                price: 2.50,
+                image: "imagenes/PSX_20240403_181921.jpg",
+                badge: "Favorito ⭐",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Masa tradicional rellena de auténtica crema de pistacho importada con tropezones crocantes."
+            },
+            {
+                id: "pdb-arequipe",
+                name: "Pan de Bono Relleno Arequipe",
+                category: "pan-de-bono",
+                price: 2.00,
+                image: "imagenes/PSX_20240403_181949.jpg",
+                badge: "Dulce",
+                badgeColor: "bg-[#1B5E55] text-white",
+                description: "Relleno generoso de arequipe artesanal cremoso que contrasta perfectamente con la sal del queso."
+            },
+            {
+                id: "pdb-nutella",
+                name: "Pan de Bono Nutella / Chocolate",
+                category: "pan-de-bono",
+                price: 2.20,
+                image: "imagenes/PSX_20240403_182000.jpg",
+                badge: "Especial",
+                badgeColor: "bg-amber-800 text-white",
+                description: "Relleno fundido de crema de avellanas y chocolate para los amantes del dulce."
+            },
+            {
+                id: "pdb-caja-6",
+                name: "Caja Degustación (6 Unidades)",
+                category: "pan-de-bono",
+                price: 9.50,
+                image: "imagenes/IMG_3026.JPG",
+                badge: "Para Compartir",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Caja surtida con 3 tradicionales y 3 con rellenos a tu elección. Ideal para regalar o compartir."
+            },
+
+            // ☕ 2. CAFETERÍA
+            {
+                id: "cafe-latte",
+                name: "Café Latte Especial",
+                category: "cafeteria",
+                price: 2.50,
+                image: "fotos/CAFE.jpg",
+                badge: "Especialidad",
+                badgeColor: "bg-[#1B5E55] text-[#C49F60]",
+                description: "Espresso doble de granos seleccionados con leche perfectamente texturizada y arte latte."
+            },
+            {
+                id: "cafe-latte-baileys",
+                name: "Café Latte con Baileys",
+                category: "cafeteria",
+                price: 4.00,
+                image: "fotos/CAFE LATTE BAILYS.jpg",
+                badge: "Premium 🍸",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Combinación sublime de café de especialidad, leche cremada y un toque de crema irlandesa Baileys."
+            },
+            {
+                id: "cafe-latte-pistacho",
+                name: "Latte Pistacho Caliente",
+                category: "cafeteria",
+                price: 3.80,
+                image: "fotos/LATTE PISTACHO.jpg",
+                badge: "Imperdible",
+                badgeColor: "bg-[#1B5E55] text-white",
+                description: "Infusión aromática de pasta de pistacho con espresso doble y leche sedosa."
+            },
+            {
+                id: "cafe-mocaccino",
+                name: "Mocaccino Dolce",
+                category: "cafeteria",
+                price: 3.20,
+                image: "fotos/MOCACCINNO.jpg",
+                badge: "Cacao",
+                badgeColor: "bg-amber-900 text-white",
+                description: "Cacao puro venezolano, espresso intenso y crema chantilly con virutas de chocolate."
+            },
+            {
+                id: "cafe-chocolate-caliente",
+                name: "Chocolate Caliente Artesanal",
+                category: "cafeteria",
+                price: 2.80,
+                image: "fotos/CHOCOLATE.jpg",
+                badge: "100% Cacao",
+                badgeColor: "bg-[#1B5E55] text-[#C49F60]",
+                description: "Elaborado con cacao venezolano puro, espeso, aromático y reconfortante."
+            },
+
+            // 🍦 3. FRAPPÉS & MALTEADAS
+            {
+                id: "frappe-clasico",
+                name: "Frappuccino Clásico",
+                category: "frappes",
+                price: 3.50,
+                image: "fotos/FRAPUCCINNO.jpg",
+                badge: "Refrescante",
+                badgeColor: "bg-[#1B5E55] text-white",
+                description: "Café batido con hielo, leche y coronado con abundante crema chantilly y sirope."
+            },
+            {
+                id: "frappe-brownie",
+                name: "Frappé Brownie Especial",
+                category: "frappes",
+                price: 4.50,
+                image: "fotos/FRAPUCCINO BROWNIE.JPG",
+                badge: "Top Ventas 🍫",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Base cremosa de chocolate y café con trozos de brownie húmedo y fudge de chocolate."
+            },
+            {
+                id: "malteada-toddy",
+                name: "Malteada de Toddy",
+                category: "frappes",
+                price: 4.00,
+                image: "fotos/TODDY.JPG",
+                badge: "Tradición",
+                badgeColor: "bg-amber-800 text-white",
+                description: "Nuestra clásica y cremosa malteada preparada con auténtico Toddy venezolano y chantilly."
+            },
+            {
+                id: "malteada-arequipe",
+                name: "Malteada de Arequipe",
+                category: "frappes",
+                price: 4.00,
+                image: "fotos/MALTEADA DE AREQUIPE.jpg",
+                badge: "Cremosa",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Helado artesanal de vainilla con capas de arequipe y topping crujiente."
+            },
+            {
+                id: "malteada-fresa",
+                name: "Malteada de Fresa Natural",
+                category: "frappes",
+                price: 3.80,
+                image: "fotos/MALTEADA DE FRESA.jpg",
+                badge: "Frutal",
+                badgeColor: "bg-rose-700 text-white",
+                description: "Fresas frescas seleccionadas, helado cremoso y sirope artesanal de frutos rojos."
+            },
+
+            // 🍵 4. MATCHA & FRÍOS
+            {
+                id: "matcha-verde",
+                name: "Matcha Verde Ceremonial",
+                category: "matcha-frios",
+                price: 3.80,
+                image: "fotos/MATCHA VERDE.jpg",
+                badge: "Antioxidante 🍵",
+                badgeColor: "bg-[#1B5E55] text-white",
+                description: "Té verde matcha grado ceremonial japonés batido con leche fría o caliente a tu gusto."
+            },
+            {
+                id: "matcha-frutos-rojos",
+                name: "Matcha Frutos Rojos",
+                category: "matcha-frios",
+                price: 4.20,
+                image: "fotos/MATCHA FRUTOS ROJOS.jpg",
+                badge: "Fusión",
+                badgeColor: "bg-rose-800 text-white",
+                description: "Capa de compota de frutos rojos naturales, leche sedosa y matcha ceremonial espumoso."
+            },
+            {
+                id: "matcha-mango",
+                name: "Matcha Mango Tropical",
+                category: "matcha-frios",
+                price: 4.20,
+                image: "fotos/MATCHA MANGO.jpg",
+                badge: "Exótico",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Combinación refrescante de pulpa de mango natural con el perfil herbal del matcha."
+            },
+            {
+                id: "avena-calena",
+                name: "Avena Caleña Cremosa",
+                category: "matcha-frios",
+                price: 2.80,
+                image: "fotos/AVENA CALEÑA.jpg",
+                badge: "Tradicional",
+                badgeColor: "bg-[#1B5E55] text-[#C49F60]",
+                description: "Receta casera bien fría con canela aromática, leche condensada y textura súper cremosa."
+            },
+            {
+                id: "frappe-mango",
+                name: "Frappé Tropical de Mango",
+                category: "matcha-frios",
+                price: 3.20,
+                image: "fotos/MANGO.jpg",
+                badge: "100% Fruta",
+                badgeColor: "bg-amber-600 text-white",
+                description: "Batido granizado de mango dulce natural, sin conservantes, ideal para refrescar tu tarde."
+            },
+
+            // 🎁 5. COMBOS
+            {
+                id: "combo-break-clasico",
+                name: "Combo Break Clásico",
+                category: "combos",
+                price: 5.00,
+                image: "imagenes/IMG_4746.JPG",
+                badge: "Ahorro ⭐",
+                badgeColor: "bg-[#C49F60] text-white",
+                description: "Incluye 2 Panes de Bono Tradicionales recién horneados + 1 Café Latte Especial."
+            },
+            {
+                id: "combo-pistacho-lover",
+                name: "Combo Pistacho Lover",
+                category: "combos",
+                price: 6.00,
+                image: "imagenes/PSX_20240403_181921.jpg",
+                badge: "Favorito",
+                badgeColor: "bg-[#1B5E55] text-[#C49F60]",
+                description: "1 Pan de Bono relleno de Pistacho + 1 Latte de Pistacho (caliente o frío)."
+            },
+            {
+                id: "combo-toddy-bono",
+                name: "Combo Toddy & Bono",
+                category: "combos",
+                price: 6.50,
+                image: "fotos/TODDY2.jpg",
+                badge: "Doble Delicia",
+                badgeColor: "bg-amber-900 text-white",
+                description: "1 Malteada de Toddy con chantilly + 2 Panes de Bono calientitos."
+            }
+        ];
+
+        // Global State
+        let currentCategory = "todos";
+        let searchQuery = "";
+        let cart = JSON.parse(localStorage.getItem('dolce_bono_cart') || '{}');
+        let currentCorrelative = "";
+
+        function generateCorrelative() {
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `#DB-${randomNum}`;
+        }
+
+        // Initialize Page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategories();
+            renderProducts();
+            updateCartUI();
+            
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+
+        // Render Category Chips
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            if (!container) return;
+            container.innerHTML = categories.map(cat => `
+                <button 
+                    onclick="selectCategory('${cat.id}')"
+                    id="cat-btn-${cat.id}"
+                    class="category-chip ${cat.id === currentCategory ? 'active' : 'bg-white text-gray-700 border-gray-200'} border px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-sm cursor-pointer"
+                >
+                    <i class="fa-solid ${cat.icon} text-xs"></i>
+                    <span>${cat.name}</span>
+                </button>
+            `).join('');
+        }
+
+        // Category Selection
+        function selectCategory(categoryId) {
+            currentCategory = categoryId;
+            renderCategories();
+            renderProducts();
+        }
+
+        // Filter products
+        function filterProducts() {
+            const input = document.getElementById('searchInput');
+            searchQuery = input.value.trim().toLowerCase();
+            
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            renderProducts();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = "";
+            searchQuery = "";
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            renderProducts();
+        }
+
+        // Render Product Cards
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const emptyState = document.getElementById('emptyState');
+            if (!grid) return;
+
+            const filtered = products.filter(p => {
+                const matchesCategory = (currentCategory === "todos") || (p.category === currentCategory);
+                const matchesSearch = searchQuery === "" || 
+                    p.name.toLowerCase().includes(searchQuery) || 
+                    p.description.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                if (emptyState) emptyState.classList.remove('hidden');
+                return;
+            }
+
+            if (emptyState) emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(product => {
+                const qty = cart[product.id] || 0;
+                
+                return `
+                    <div class="product-card rounded-3xl p-4 flex flex-col justify-between group overflow-hidden">
+                        <div>
+                            <!-- Image Container -->
+                            <div class="relative overflow-hidden rounded-2xl aspect-square mb-4 bg-gray-100">
+                                <img 
+                                    src="${product.image}" 
+                                    alt="${product.name}" 
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    loading="lazy"
+                                    onerror="this.src='imagenes/logo.jpg'"
+                                >
+                                ${product.badge ? `
+                                    <span class="absolute top-3 right-3 ${product.badgeColor} text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-md backdrop-blur-sm">
+                                        ${product.badge}
+                                    </span>
+                                ` : ''}
+                            </div>
+
+                            <!-- Product Info -->
+                            <div class="space-y-1.5 mb-3">
+                                <h3 class="font-serif text-xl font-bold text-[#1B5E55] leading-snug group-hover:text-[#C49F60] transition-colors">
+                                    ${product.name}
+                                </h3>
+                                <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                                    ${product.description}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Price & Quantity Action -->
+                        <div class="pt-3 border-t border-gray-100 flex items-center justify-between gap-3 mt-auto">
+                            <div>
+                                <span class="text-[10px] uppercase tracking-wider text-gray-400 block font-semibold">Precio</span>
+                                <span class="text-xl font-extrabold text-[#1B5E55] font-serif">
+                                    $${product.price.toFixed(2)}
+                                </span>
+                            </div>
+
+                            <div id="btn-container-${product.id}">
+                                ${qty > 0 ? `
+                                    <div class="flex items-center bg-[#1B5E55] text-white rounded-full p-1 shadow-sm">
+                                        <button onclick="updateQuantity('${product.id}', -1)" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center text-xs font-bold transition">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <span class="px-2.5 text-xs font-bold font-mono">${qty}</span>
+                                        <button onclick="updateQuantity('${product.id}', 1)" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center text-xs font-bold transition">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                ` : `
+                                    <button 
+                                        onclick="updateQuantity('${product.id}', 1)"
+                                        class="btn-gold px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm"
+                                    >
+                                        <i class="fa-solid fa-plus text-[10px]"></i>
+                                        <span>Agregar</span>
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Cart Management
+        function updateQuantity(productId, delta) {
+            const currentQty = cart[productId] || 0;
+            const newQty = Math.max(0, currentQty + delta);
+
+            if (newQty === 0) {
+                delete cart[productId];
+            } else {
+                cart[productId] = newQty;
+            }
+
+            localStorage.setItem('dolce_bono_cart', JSON.stringify(cart));
+            updateCartUI();
+            renderProducts();
+            renderCartDrawer();
+        }
+
+        function clearCart() {
+            cart = {};
+            localStorage.removeItem('dolce_bono_cart');
+            updateCartUI();
+            renderProducts();
+            closeCartDrawer();
+        }
+
+        function updateCartUI() {
+            let totalCount = 0;
+            let totalPrice = 0;
+
+            for (const [id, qty] of Object.entries(cart)) {
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    totalCount += qty;
+                    totalPrice += product.price * qty;
+                }
+            }
+
+            const navCount = document.getElementById('navCartCount');
+            if (navCount) navCount.textContent = totalCount;
+
+            const floatingBar = document.getElementById('floatingCartBar');
+            const floatingCountBadge = document.getElementById('floatingCartCountBadge');
+            const floatingTotal = document.getElementById('floatingCartTotal');
+
+            if (floatingBar && floatingCountBadge && floatingTotal) {
+                floatingCountBadge.textContent = totalCount;
+                floatingTotal.textContent = `$${totalPrice.toFixed(2)}`;
+
+                if (totalCount > 0) {
+                    floatingBar.classList.add('visible');
+                } else {
+                    floatingBar.classList.remove('visible');
+                }
+            }
+
+            const drawerSubtotal = document.getElementById('drawerSubtotal');
+            const drawerTotal = document.getElementById('drawerTotal');
+            if (drawerSubtotal && drawerTotal) {
+                drawerSubtotal.textContent = `$${totalPrice.toFixed(2)}`;
+                drawerTotal.textContent = `$${totalPrice.toFixed(2)}`;
+            }
+        }
+
+        function openCartDrawer() {
+            renderCartDrawer();
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartDrawerBackdrop');
+            backdrop.classList.remove('hidden');
+            setTimeout(() => {
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartDrawerBackdrop');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function renderCartDrawer() {
+            const container = document.getElementById('cartItemsContainer');
+            const footer = document.getElementById('cartDrawerFooter');
+            const cartItemIds = Object.keys(cart);
+
+            if (cartItemIds.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-gray-300"></i>
+                        <p class="text-base font-serif text-[#1B5E55] font-bold">Tu carrito está vacío</p>
+                        <p class="text-xs text-gray-500 mt-1 mb-4">Agrega deliciosos panes de bono o bebidas para comenzar.</p>
+                        <button onclick="closeCartDrawer()" class="btn-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                            Explorar Menú
+                        </button>
+                    </div>
+                `;
+                if (footer) footer.classList.add('hidden');
+                return;
+            }
+
+            if (footer) footer.classList.remove('hidden');
+
+            container.innerHTML = cartItemIds.map(id => {
+                const product = products.find(p => p.id === id);
+                if (!product) return '';
+                const qty = cart[id];
+                const itemTotal = product.price * qty;
+
+                return `
+                    <div class="flex items-center gap-3.5 p-3 rounded-2xl bg-[#FDFBF7] border border-gray-100">
+                        <img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-xl object-cover" onerror="this.src='imagenes/logo.jpg'">
+                        
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-serif font-bold text-sm text-[#1B5E55] truncate">${product.name}</h4>
+                            <div class="text-xs text-[#C49F60] font-bold">$${product.price.toFixed(2)} c/u</div>
+                            <div class="text-[11px] text-gray-500 font-mono font-medium mt-0.5">Subtotal: $${itemTotal.toFixed(2)}</div>
+                        </div>
+
+                        <div class="flex items-center bg-white border border-gray-200 rounded-full p-1 shadow-sm">
+                            <button onclick="updateQuantity('${product.id}', -1)" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-xs font-bold text-[#1B5E55]">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <span class="px-2 text-xs font-bold font-mono text-gray-800">${qty}</span>
+                            <button onclick="updateQuantity('${product.id}', 1)" class="w-6 h-6 rounded-full hover:bg-gray-100 flex items-center justify-center text-xs font-bold text-[#1B5E55]">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleDeliveryAddress() {
+            const orderTypes = document.getElementsByName('orderType');
+            let selectedType = "Pasaje Pirineos";
+            for (const radio of orderTypes) {
+                if (radio.checked) selectedType = radio.value;
+            }
+
+            const addressContainer = document.getElementById('deliveryAddressContainer');
+            const addressInput = document.getElementById('deliveryAddress');
+            
+            if (selectedType === "Delivery") {
+                addressContainer.classList.remove('hidden');
+                addressInput.setAttribute('required', 'true');
+            } else {
+                addressContainer.classList.add('hidden');
+                addressInput.removeAttribute('required');
+            }
+        }
+
+        // Estado del comprobante de pago
+        let receiptBase64 = null;
+
+        // Actualizar instrucciones según el método de pago seleccionado
+        function updatePaymentMethodInfo() {
+            const paymentMethods = document.getElementsByName('paymentMethod');
+            let selectedMethod = "Pago Móvil";
+            for (const radio of paymentMethods) {
+                if (radio.checked) selectedMethod = radio.value;
+            }
+
+            const title = document.getElementById('paymentMethodTitle');
+            const details = document.getElementById('paymentMethodDetails');
+            const refInput = document.getElementById('paymentReference');
+
+            if (!title || !details || !refInput) return;
+
+            if (selectedMethod === "Pago Móvil") {
+                title.textContent = "Datos para Pago Móvil:";
+                details.innerHTML = `
+                    • Banco: <b>Banesco (0134)</b> / <b>Mercantil (0105)</b><br>
+                    • Teléfono: <b>0412 109 1336</b><br>
+                    • C.I.: <b>V-25.123.456</b> (Dolce Bono C.A.)
+                `;
+                refInput.placeholder = "Ej. 123456 (Últimos dígitos de la referencia de Pago Móvil)";
+            } else if (selectedMethod === "Bancolombia") {
+                title.textContent = "Datos para Transferencia Bancolombia:";
+                details.innerHTML = `
+                    • Banco: <b>Bancolombia</b><br>
+                    • Tipo: <b>Cuenta de Ahorros</b><br>
+                    • Número: <b>123-456789-00</b><br>
+                    • Titular: <b>Dolce Bono</b>
+                `;
+                refInput.placeholder = "Ej. 987654 (Número de comprobante Bancolombia)";
+            } else if (selectedMethod === "Zelle") {
+                title.textContent = "Datos para Transferencia Zelle:";
+                details.innerHTML = `
+                    • Correo Zelle: <b>pagos@dolcebono.com</b><br>
+                    • Titular: <b>Dolce Bono LLC</b>
+                `;
+                refInput.placeholder = "Ej. Nombre del titular o ID de transacción Zelle";
+            }
+        }
+
+        // Manejar subida y compresión de imagen de comprobante
+        function handleReceiptFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validar que sea imagen
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor selecciona un archivo de imagen válido (JPG, PNG).');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Redimensionar imagen para optimizar almacenamiento en PostgreSQL
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const MAX_WIDTH = 900;
+                    const scaleSize = MAX_WIDTH / img.width;
+                    canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
+                    canvas.height = (img.width > MAX_WIDTH) ? (img.height * scaleSize) : img.height;
+                    
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    receiptBase64 = canvas.toDataURL('image/jpeg', 0.82);
+
+                    // Actualizar UI
+                    document.getElementById('receiptPreviewImg').src = receiptBase64;
+                    document.getElementById('receiptFileName').textContent = file.name;
+                    document.getElementById('receiptPreviewContainer').classList.remove('hidden');
+                    document.getElementById('receiptUploadBox').classList.add('hidden');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeReceiptFile() {
+            receiptBase64 = null;
+            document.getElementById('receiptFileInput').value = '';
+            document.getElementById('receiptPreviewContainer').classList.add('hidden');
+            document.getElementById('receiptUploadBox').classList.remove('hidden');
+        }
+
+        function openCheckoutModal() {
+            closeCartDrawer();
+            currentCorrelative = generateCorrelative();
+            document.getElementById('modalCorrelativeHeader').textContent = currentCorrelative;
+            document.getElementById('correlativeBadge').textContent = currentCorrelative;
+
+            updatePaymentMethodInfo();
+
+            const list = document.getElementById('checkoutItemsList');
+            let total = 0;
+
+            list.innerHTML = Object.entries(cart).map(([id, qty]) => {
+                const product = products.find(p => p.id === id);
+                if (!product) return '';
+                const itemTotal = product.price * qty;
+                total += itemTotal;
+                return `
+                    <div class="flex justify-between items-center py-1 border-b border-gray-100">
+                        <span class="font-medium text-gray-700">${qty}x ${product.name}</span>
+                        <span class="font-bold font-mono text-gray-900">$${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('checkoutTotal').textContent = `$${total.toFixed(2)}`;
+
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Form Submit: Save to Neon DB + Send to WhatsApp
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            
+            const orderTypes = document.getElementsByName('orderType');
+            let orderType = "Pasaje Pirineos";
+            for (const radio of orderTypes) {
+                if (radio.checked) orderType = radio.value;
+            }
+
+            let deliveryAddress = "";
+            if (orderType === "Delivery") {
+                deliveryAddress = document.getElementById('deliveryAddress').value.trim();
+            }
+
+            const paymentMethods = document.getElementsByName('paymentMethod');
+            let paymentMethod = "Pago Móvil";
+            for (const radio of paymentMethods) {
+                if (radio.checked) paymentMethod = radio.value;
+            }
+
+            const paymentReference = document.getElementById('paymentReference').value.trim();
+            const notes = document.getElementById('orderNotes').value.trim();
+
+            let itemsText = "";
+            let grandTotal = 0;
+            const orderItemsArray = [];
+
+            for (const [id, qty] of Object.entries(cart)) {
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    const itemTotal = product.price * qty;
+                    grandTotal += itemTotal;
+                    itemsText += `• ${qty}x ${product.name} ($${product.price.toFixed(2)}) = $${itemTotal.toFixed(2)}\n`;
+                    orderItemsArray.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        qty: qty,
+                        subtotal: itemTotal
+                    });
+                }
+            }
+
+            const submitBtn = event.submitter || document.querySelector('#checkoutForm button[type="submit"]');
+            const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xl"></i><span>Registrando Pedido...</span>`;
+            }
+
+            const orderPayload = {
+                cliente_nombre: name,
+                cliente_telefono: phone,
+                tipo_entrega: orderType,
+                direccion_delivery: deliveryAddress,
+                metodo_pago: paymentMethod,
+                referencia_pago: paymentReference || null,
+                comprobante_img: receiptBase64 || null,
+                notas: notes,
+                total: grandTotal,
+                items: orderItemsArray,
+                correlativo_propuesto: currentCorrelative
+            };
+
+            let confirmedCorrelative = currentCorrelative;
+
+            // Send to Serverless API (Neon PostgreSQL)
+            fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderPayload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.correlativo) {
+                    confirmedCorrelative = data.correlativo;
+                }
+            })
+            .catch(err => {
+                console.warn('Conexión local o sin servidor. Procediendo a WhatsApp:', err);
+            })
+            .finally(() => {
+                let message = `✨ *NUEVO PEDIDO - DOLCE BONO* ✨\n`;
+                message += `🧾 *CORRELATIVO:* ${confirmedCorrelative}\n`;
+                message += `─────────────────────────\n`;
+                message += `👤 *Cliente:* ${name}\n`;
+                message += `📱 *Teléfono:* ${phone}\n`;
+                message += `📍 *Modalidad:* ${orderType === 'Delivery' ? `🛵 Delivery (${deliveryAddress})` : `📍 Pickup en Sede ${orderType}`}\n`;
+                message += `💳 *Método de Pago:* ${paymentMethod}\n`;
+                if (paymentReference) {
+                    message += `🔢 *Referencia:* ${paymentReference}\n`;
+                }
+                if (receiptBase64) {
+                    message += `📸 *Comprobante:* 📎 (Captura adjuntada en este chat)\n`;
+                }
+                message += `─────────────────────────\n`;
+                message += `📋 *DETALLE DEL PEDIDO:*\n`;
+                message += `${itemsText}`;
+                message += `─────────────────────────\n`;
+                message += `💰 *TOTAL A PAGAR: $${grandTotal.toFixed(2)}*\n`;
+                if (notes) {
+                    message += `📝 *Notas:* ${notes}\n`;
+                }
+                message += `─────────────────────────\n`;
+                message += `_Pedido registrado en sistema Dolce Bono_ 🥖☕`;
+
+                const whatsappUrl = `https://wa.me/${DOLCE_BONO_WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+                window.open(whatsappUrl, '_blank');
+
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+
+                closeCheckoutModal();
+                showSuccessModal(confirmedCorrelative, name, phone, grandTotal, whatsappUrl);
+                removeReceiptFile();
+                clearCart();
+            });
+        }
+
+        function showSuccessModal(correlative, name, phone, total, whatsappUrl) {
+            document.getElementById('successCorrelative').textContent = correlative;
+            document.getElementById('successCustomerName').textContent = name;
+            document.getElementById('successCustomerPhone').textContent = phone;
+            document.getElementById('successTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('successWhatsAppLink').href = whatsappUrl;
+
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    </script>
+</body>
+</html>

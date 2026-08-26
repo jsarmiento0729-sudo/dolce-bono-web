@@ -1,0 +1,15 @@
+{
+  "name": "dolce-bono-web",
+  "version": "1.0.0",
+  "description": "Sitio web y Menú Digital Interactivo de Dolce Bono con Vercel y Neon PostgreSQL",
+  "main": "api/orders.js",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.5"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}

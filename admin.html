@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Bono | Panel Administrativo de Pedidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --db-green: #1B5E55;
+            --db-green-dark: #13463F;
+            --db-gold: #C49F60;
+            --db-cream: #FDFBF7;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8F6F0;
+            color: #222222;
+            min-height: 100vh;
+        }
+
+        .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .btn-green {
+            background-color: var(--db-green);
+            color: white;
+            transition: all 0.25s ease;
+        }
+        .btn-green:hover {
+            background-color: var(--db-green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold {
+            background-color: var(--db-gold);
+            color: white;
+            transition: all 0.25s ease;
+        }
+        .btn-gold:hover {
+            background-color: #A98342;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(19, 70, 63, 0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Shake animation for wrong pin */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .shake-box {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- ======================================================== -->
+    <!-- 1. LOGIN SCREEN (PROTEGIDO CON CONTRASEÑA 9390) -->
+    <!-- ======================================================== -->
+    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1B5E55] bg-[radial-gradient(#C49F60_1px,transparent_1px)] [background-size:20px_20px]">
+        <div id="loginCard" class="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl text-center border border-[#C49F60]/30 transition-all">
+            <div class="w-20 h-20 mx-auto rounded-full bg-[#1B5E55]/10 flex items-center justify-center mb-4 p-2 shadow-inner">
+                <img src="imagenes/logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full">
+            </div>
+            
+            <span class="text-[10px] uppercase font-bold tracking-[0.3em] text-[#C49F60] block mb-1">Área Privada</span>
+            <h2 class="font-serif text-3xl font-bold text-[#1B5E55] mb-2">Panel Administrativo</h2>
+            <p class="text-gray-500 text-xs mb-6">Ingresa el PIN de seguridad para acceder a los pedidos de Dolce Bono.</p>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="relative">
+                    <input 
+                        type="password" 
+                        id="pinInput" 
+                        placeholder="Ingresa la contraseña" 
+                        maxlength="10"
+                        required 
+                        class="w-full text-center tracking-[0.4em] font-mono text-2xl py-3.5 px-4 bg-[#FDFBF7] border-2 border-gray-200 focus:border-[#1B5E55] rounded-2xl focus:outline-none focus:ring-4 focus:ring-[#1B5E55]/10"
+                        autofocus
+                    >
+                </div>
+
+                <div id="pinErrorMsg" class="hidden text-xs text-red-600 font-bold">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Contraseña incorrecta. Intenta de nuevo.
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full btn-green py-3.5 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg flex items-center justify-center gap-2"
+                >
+                    <i class="fa-solid fa-lock-open text-xs"></i>
+                    <span>Desbloquear Panel</span>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-4 border-t border-gray-100">
+                <a href="index.html" class="text-[11px] text-gray-400 hover:text-[#1B5E55] transition">
+                    ← Volver a la página principal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 2. ADMIN DASHBOARD CONTENT -->
+    <!-- ======================================================== -->
+    <div id="adminDashboard" class="hidden flex-1 flex flex-col">
+        
+        <!-- Top Navbar -->
+        <header class="bg-[#1B5E55] text-white px-6 md:px-12 py-4 shadow-lg sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3.5">
+                    <img src="imagenes/logo.jpg" alt="Logo" class="w-10 h-10 rounded-full bg-white p-1">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-serif text-xl font-bold uppercase tracking-wide">Dolce Bono</h1>
+                            <span class="bg-[#C49F60] text-[#1B5E55] text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full">
+                                Admin
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-white/60">Gestión de Pedidos en Tiempo Real</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="fetchOrders()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition">
+                        <i id="refreshIcon" class="fa-solid fa-rotate text-xs"></i>
+                        <span>Actualizar</span>
+                    </button>
+
+                    <button onclick="logout()" class="bg-red-500/20 hover:bg-red-500/30 text-red-200 border border-red-400/30 px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 transition">
+                        <i class="fa-solid fa-power-off text-xs"></i>
+                        <span class="hidden sm:inline">Cerrar Sesión</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 flex-1 w-full space-y-6">
+            
+            <!-- Metrics Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <!-- Total Orders -->
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-[#1B5E55]/10 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Total de Pedidos</span>
+                        <div id="metricTotalOrders" class="text-2xl font-bold text-[#1B5E55] font-serif mt-1">0</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#1B5E55]/5 text-[#1B5E55] flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                </div>
+
+                <!-- Total Amount -->
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-[#1B5E55]/10 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Total Ventas ($)</span>
+                        <div id="metricTotalAmount" class="text-2xl font-bold text-[#C49F60] font-serif mt-1">$0.00</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#C49F60]/10 text-[#C49F60] flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                </div>
+
+                <!-- Pending Orders -->
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-[#1B5E55]/10 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Pendientes</span>
+                        <div id="metricPendingOrders" class="text-2xl font-bold text-amber-600 font-serif mt-1">0</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+
+                <!-- Completed Orders -->
+                <div class="bg-white p-5 rounded-3xl shadow-sm border border-[#1B5E55]/10 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Entregados</span>
+                        <div id="metricDeliveredOrders" class="text-2xl font-bold text-emerald-600 font-serif mt-1">0</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Search Bar -->
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-[#1B5E55]/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                
+                <!-- Search Input -->
+                <div class="w-full md:w-80 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    <input 
+                        type="text" 
+                        id="adminSearchInput" 
+                        placeholder="Buscar por correlativo, cliente o teléfono..." 
+                        class="w-full pl-10 pr-4 py-2.5 bg-[#FDFBF7] border border-gray-200 rounded-full text-xs font-medium focus:outline-none focus:border-[#1B5E55]"
+                        oninput="filterAdminOrders()"
+                    >
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
+                    <button onclick="setFilter('todos')" id="filter-todos" class="filter-tab active bg-[#1B5E55] text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">
+                        Todos
+                    </button>
+                    <button onclick="setFilter('Pendiente')" id="filter-Pendiente" class="filter-tab bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-gray-200">
+                        Pendientes
+                    </button>
+                    <button onclick="setFilter('En preparación')" id="filter-En preparación" class="filter-tab bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-gray-200">
+                        En Preparación
+                    </button>
+                    <button onclick="setFilter('Entregado')" id="filter-Entregado" class="filter-tab bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap hover:bg-gray-200">
+                        Entregados
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orders Table Container -->
+            <div class="bg-white rounded-3xl shadow-sm border border-[#1B5E55]/10 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-[#1B5E55]/5 border-b border-gray-200/80 text-[11px] uppercase tracking-wider text-gray-500">
+                                <th class="py-4 px-6">Correlativo</th>
+                                <th class="py-4 px-6">Cliente</th>
+                                <th class="py-4 px-6">Entrega / Dirección</th>
+                                <th class="py-4 px-6">Pago & Ref.</th>
+                                <th class="py-4 px-6">Comprobante</th>
+                                <th class="py-4 px-6">Total ($)</th>
+                                <th class="py-4 px-6">Estado</th>
+                                <th class="py-4 px-6 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody" class="divide-y divide-gray-100 text-xs">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State -->
+                <div id="adminEmptyState" class="hidden text-center py-16">
+                    <i class="fa-solid fa-inbox text-4xl text-gray-300 mb-3"></i>
+                    <p class="font-serif text-xl font-bold text-[#1B5E55]">No se encontraron pedidos</p>
+                    <p class="text-xs text-gray-400 mt-1">Los nuevos pedidos de tus clientes aparecerán aquí automáticamente.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 3. MODAL: DETALLE COMPLETO DEL PEDIDO -->
+    <!-- ======================================================== -->
+    <div id="orderDetailModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden border border-[#1B5E55]/10 max-h-[90vh] flex flex-col">
+            
+            <div class="bg-[#1B5E55] text-white p-6 flex justify-between items-center">
+                <div>
+                    <span id="detailCorrelativeBadge" class="text-xs font-mono font-bold text-[#C49F60]">#DB-0000</span>
+                    <h3 class="font-serif text-2xl font-bold italic">Detalle de la Orden</h3>
+                </div>
+                <button onclick="closeOrderDetailModal()" class="text-white/70 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="orderDetailContent" class="p-6 overflow-y-auto space-y-4 text-xs">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="p-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+                <button onclick="closeOrderDetailModal()" class="px-5 py-2.5 bg-gray-200 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-wider hover:bg-gray-300">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- 4. MODAL: ZOOM COMPROBANTE / FOTO -->
+    <!-- ======================================================== -->
+    <div id="receiptImageModal" class="fixed inset-0 z-50 modal-backdrop hidden flex items-center justify-center p-4" onclick="closeReceiptModal()">
+        <div class="relative max-w-2xl max-h-[90vh] bg-black/90 rounded-3xl p-3 shadow-2xl flex flex-col items-center" onclick="event.stopPropagation()">
+            <button onclick="closeReceiptModal()" class="absolute -top-4 -right-4 bg-white text-gray-800 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-lg z-10 hover:bg-gray-100">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="receiptModalImg" src="" alt="Comprobante de Pago" class="max-h-[80vh] w-auto object-contain rounded-2xl">
+            <div class="mt-3 text-center">
+                <a id="receiptDownloadBtn" href="#" download="comprobante-pago.jpg" class="text-white/80 hover:text-white text-xs font-semibold underline">
+                    <i class="fa-solid fa-download mr-1"></i> Descargar Comprobante
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- SCRIPT & LOGIC -->
+    <!-- ======================================================== -->
+    <script>
+        const ADMIN_PIN = "9390";
+        let allOrders = [];
+        let currentFilter = "todos";
+        let currentSearch = "";
+
+        // Check authentication on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAuth = sessionStorage.getItem('dolce_bono_admin_auth');
+            if (isAuth === 'true') {
+                showDashboard();
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+            }
+        });
+
+        // Handle Login
+        function handleLogin(event) {
+            event.preventDefault();
+            const input = document.getElementById('pinInput').value.trim();
+            const errorMsg = document.getElementById('pinErrorMsg');
+            const card = document.getElementById('loginCard');
+
+            if (input === ADMIN_PIN) {
+                sessionStorage.setItem('dolce_bono_admin_auth', 'true');
+                errorMsg.classList.add('hidden');
+                showDashboard();
+            } else {
+                errorMsg.classList.remove('hidden');
+                card.classList.add('shake-box');
+                setTimeout(() => card.classList.remove('shake-box'), 500);
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('dolce_bono_admin_auth');
+            location.reload();
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            fetchOrders();
+        }
+
+        // Fetch Orders from Neon Database
+        async function fetchOrders() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+            try {
+                const res = await fetch('/api/orders');
+                const data = await res.json();
+
+                if (data && data.orders) {
+                    allOrders = data.orders;
+                } else {
+                    allOrders = [];
+                }
+
+                updateMetrics();
+                renderOrdersTable();
+            } catch (error) {
+                console.error('Error cargando pedidos:', error);
+            } finally {
+                if (refreshIcon) {
+                    setTimeout(() => refreshIcon.classList.remove('fa-spin'), 600);
+                }
+            }
+        }
+
+        // Update Dashboard Metrics
+        function updateMetrics() {
+            let totalAmount = 0;
+            let pendingCount = 0;
+            let deliveredCount = 0;
+
+            allOrders.forEach(o => {
+                totalAmount += parseFloat(o.total || 0);
+                if (o.estado === 'Pendiente') pendingCount++;
+                if (o.estado === 'Entregado') deliveredCount++;
+            });
+
+            document.getElementById('metricTotalOrders').textContent = allOrders.length;
+            document.getElementById('metricTotalAmount').textContent = `$${totalAmount.toFixed(2)}`;
+            document.getElementById('metricPendingOrders').textContent = pendingCount;
+            document.getElementById('metricDeliveredOrders').textContent = deliveredCount;
+        }
+
+        // Filter tabs
+        function setFilter(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('bg-[#1B5E55]', 'text-white', 'shadow-sm');
+                tab.classList.add('bg-gray-100', 'text-gray-600');
+            });
+
+            const activeTab = document.getElementById(`filter-${status}`);
+            if (activeTab) {
+                activeTab.classList.remove('bg-gray-100', 'text-gray-600');
+                activeTab.classList.add('bg-[#1B5E55]', 'text-white', 'shadow-sm');
+            }
+
+            renderOrdersTable();
+        }
+
+        function filterAdminOrders() {
+            currentSearch = document.getElementById('adminSearchInput').value.trim().toLowerCase();
+            renderOrdersTable();
+        }
+
+        // Render Table Rows
+        function renderOrdersTable() {
+            const tbody = document.getElementById('ordersTableBody');
+            const emptyState = document.getElementById('adminEmptyState');
+
+            const filtered = allOrders.filter(o => {
+                const matchesFilter = (currentFilter === 'todos') || (o.estado === currentFilter);
+                const matchesSearch = (currentSearch === '') ||
+                    (o.correlativo && o.correlativo.toLowerCase().includes(currentSearch)) ||
+                    (o.cliente_nombre && o.cliente_nombre.toLowerCase().includes(currentSearch)) ||
+                    (o.cliente_telefono && o.cliente_telefono.includes(currentSearch));
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            tbody.innerHTML = filtered.map(order => {
+                const dateStr = order.creado_en ? new Date(order.creado_en).toLocaleString('es-VE', { 
+                    dateStyle: 'short', 
+                    timeStyle: 'short' 
+                }) : 'Reciente';
+
+                // Status Badge Color
+                let statusBadge = 'bg-amber-100 text-amber-800 border-amber-200';
+                if (order.estado === 'En preparación') statusBadge = 'bg-blue-100 text-blue-800 border-blue-200';
+                if (order.estado === 'Entregado') statusBadge = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                if (order.estado === 'Cancelado') statusBadge = 'bg-red-100 text-red-800 border-red-200';
+
+                // Clean phone for WhatsApp link
+                const cleanPhone = (order.cliente_telefono || '').replace(/\D/g, '');
+
+                return `
+                    <tr class="hover:bg-[#FDFBF7] transition-colors">
+                        <!-- Correlativo & Fecha -->
+                        <td class="py-4 px-6 font-mono font-bold text-[#1B5E55]">
+                            <span class="block">${order.correlativo}</span>
+                            <span class="text-[10px] text-gray-400 font-sans font-normal">${dateStr}</span>
+                        </td>
+
+                        <!-- Cliente -->
+                        <td class="py-4 px-6">
+                            <div class="font-bold text-gray-800">${order.cliente_nombre || 'Sin nombre'}</div>
+                            <a href="https://wa.me/${cleanPhone}" target="_blank" class="text-[11px] text-[#25D366] font-semibold hover:underline flex items-center gap-1 mt-0.5">
+                                <i class="fa-brands fa-whatsapp"></i> ${order.cliente_telefono || '-'}
+                            </a>
+                        </td>
+
+                        <!-- Entrega -->
+                        <td class="py-4 px-6">
+                            <span class="font-semibold text-gray-700">${order.tipo_entrega}</span>
+                            ${order.direccion_delivery ? `<div class="text-[10px] text-gray-400 truncate max-w-xs">${order.direccion_delivery}</div>` : ''}
+                        </td>
+
+                        <!-- Método de Pago & Referencia -->
+                        <td class="py-4 px-6">
+                            <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700 border border-gray-200">
+                                ${order.metodo_pago}
+                            </span>
+                            ${order.referencia_pago ? `
+                                <div class="text-[11px] text-[#1B5E55] font-mono font-bold mt-1">
+                                    Ref: ${order.referencia_pago}
+                                </div>
+                            ` : '<div class="text-[10px] text-gray-400">Sin referencia</div>'}
+                        </td>
+
+                        <!-- Comprobante -->
+                        <td class="py-4 px-6">
+                            ${order.comprobante_img ? `
+                                <button onclick="openReceiptModal('${order.comprobante_img}')" class="relative group cursor-pointer">
+                                    <img src="${order.comprobante_img}" class="w-10 h-10 object-cover rounded-xl border border-gray-200 shadow-sm group-hover:scale-105 transition">
+                                    <span class="absolute inset-0 bg-black/30 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 text-white text-xs transition">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </span>
+                                </button>
+                            ` : `
+                                <span class="text-[10px] text-gray-300 italic">No adjuntó</span>
+                            `}
+                        </td>
+
+                        <!-- Total -->
+                        <td class="py-4 px-6 font-bold text-base font-serif text-[#C49F60]">
+                            $${parseFloat(order.total || 0).toFixed(2)}
+                        </td>
+
+                        <!-- Estado Selector -->
+                        <td class="py-4 px-6">
+                            <select 
+                                onchange="changeOrderStatus(${order.id}, this.value)"
+                                class="text-[11px] font-bold rounded-xl px-2.5 py-1.5 border focus:outline-none cursor-pointer ${statusBadge}"
+                            >
+                                <option value="Pendiente" ${order.estado === 'Pendiente' ? 'selected' : ''}>⏳ Pendiente</option>
+                                <option value="En preparación" ${order.estado === 'En preparación' ? 'selected' : ''}>👨‍🍳 En preparación</option>
+                                <option value="Entregado" ${order.estado === 'Entregado' ? 'selected' : ''}>✅ Entregado</option>
+                                <option value="Cancelado" ${order.estado === 'Cancelado' ? 'selected' : ''}>❌ Cancelado</option>
+                            </select>
+                        </td>
+
+                        <!-- Acciones -->
+                        <td class="py-4 px-6 text-center">
+                            <button onclick="viewOrderDetail(${order.id})" class="text-gray-400 hover:text-[#1B5E55] p-2 rounded-lg hover:bg-gray-100 transition" title="Ver detalle">
+                                <i class="fa-solid fa-eye text-sm"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Change Status (PATCH /api/orders)
+        async function changeOrderStatus(orderId, newStatus) {
+            try {
+                const res = await fetch('/api/orders', {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: orderId, estado: newStatus })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const order = allOrders.find(o => o.id === orderId);
+                    if (order) order.estado = newStatus;
+                    updateMetrics();
+                    renderOrdersTable();
+                }
+            } catch (error) {
+                console.error('Error actualizando estado:', error);
+                alert('No se pudo actualizar el estado del pedido.');
+            }
+        }
+
+        // View Detail Modal
+        function viewOrderDetail(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            document.getElementById('detailCorrelativeBadge').textContent = order.correlativo;
+
+            let itemsListHtml = '';
+            const items = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []);
+
+            itemsListHtml = items.map(item => `
+                <div class="flex justify-between items-center py-1.5 border-b border-gray-100">
+                    <div>
+                        <span class="font-bold text-gray-800">${item.qty}x ${item.name}</span>
+                        <div class="text-[10px] text-gray-400">$${parseFloat(item.price || 0).toFixed(2)} c/u</div>
+                    </div>
+                    <span class="font-bold font-mono text-gray-900">$${parseFloat(item.subtotal || 0).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            const content = document.getElementById('orderDetailContent');
+            content.innerHTML = `
+                <div class="bg-[#FDFBF7] p-4 rounded-2xl space-y-2 border border-gray-100">
+                    <div class="flex justify-between"><span class="text-gray-500">Cliente:</span> <span class="font-bold text-gray-800">${order.cliente_nombre}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Teléfono:</span> <span class="font-bold text-gray-800">${order.cliente_telefono}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500">Modalidad:</span> <span class="font-bold text-gray-800">${order.tipo_entrega}</span></div>
+                    ${order.direccion_delivery ? `<div class="flex justify-between"><span class="text-gray-500">Dirección:</span> <span class="font-bold text-gray-800 text-right">${order.direccion_delivery}</span></div>` : ''}
+                    <div class="flex justify-between"><span class="text-gray-500">Método de Pago:</span> <span class="font-bold text-gray-800">${order.metodo_pago}</span></div>
+                    ${order.referencia_pago ? `<div class="flex justify-between"><span class="text-gray-500">Referencia:</span> <span class="font-mono font-bold text-[#1B5E55]">${order.referencia_pago}</span></div>` : ''}
+                    ${order.notas ? `<div class="pt-2 border-t border-gray-200 text-gray-600 italic">Notas: "${order.notas}"</div>` : ''}
+                </div>
+
+                <div>
+                    <h4 class="font-bold uppercase tracking-wider text-gray-500 text-[10px] mb-2">Productos del Pedido</h4>
+                    <div class="space-y-1">${itemsListHtml}</div>
+                    <div class="flex justify-between items-center pt-3 border-t border-gray-200 font-bold text-base text-[#1B5E55] mt-2">
+                        <span>Total:</span>
+                        <span class="text-xl text-[#C49F60] font-serif">$${parseFloat(order.total || 0).toFixed(2)}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderDetailModal').classList.remove('hidden');
+        }
+
+        function closeOrderDetailModal() {
+            document.getElementById('orderDetailModal').classList.add('hidden');
+        }
+
+        // Zoom Receipt Modal
+        function openReceiptModal(imgSrc) {
+            document.getElementById('receiptModalImg').src = imgSrc;
+            document.getElementById('receiptDownloadBtn').href = imgSrc;
+            document.getElementById('receiptImageModal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptImageModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
